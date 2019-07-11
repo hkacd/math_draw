@@ -1,0 +1,62 @@
+<html><body>
+
+<canvas id="CI1"width="400"height="400"style="float:left;background:#eeeeee"></canvas>
+<form name="fo1"style="float:right"><select name="sb1">
+  <option value=1>リサージュ的</option>
+  <option value=2>コッホ的</option>
+</select></form>
+
+<script>
+let CC=(CE=document.getElementById("CI1")).getContext("2d");
+obit=0;
+OB=[];
+
+function liss(x0,y0){
+ let it=0,
+ wt=0.8,
+ thx=0,
+ thy=0,
+ siz=50,
+ x=x0+siz,
+ y=y0,
+ thxd=Math.random(),
+ thyd=Math.random();
+ ii=setInterval(()=>{
+  CC.moveTo(x,y);
+  for(it--;it<1;it+=wt){
+   CC.lineTo(x=x0+siz*Math.cos(thx+=thxd),y=y0+siz*Math.sin(thy+=thyd));
+  }
+ },20);
+}
+
+function koch(x,y){
+ let it=0,
+ wt=0.8,
+ th=0,
+ c=0,
+ siz=5,
+ f=Math.pow(4,Math.random()*3);
+// f=Math.pow(4,(Math.random()*4)|0);
+ ii=setInterval(()=>{
+  CC.moveTo(x,y);
+  for(it--;it<1;it+=wt,c++){if(c>f){c-=f;}
+   th+=(Math.log2(c&-c)&1)?2.1:-1.05;
+   CC.lineTo(x+=siz*Math.cos(th),y+=siz*Math.sin(th));
+  }
+ },20);
+}
+
+ii=setInterval(()=>{
+ CC.stroke();CC.closePath();CC.beginPath();
+},20);
+
+addEventListener("mousedown",(ge)=>{
+ EV_MD(ge.pageX-CE.getBoundingClientRect().left-window.pageXOffset,ge.pageY-CE.getBoundingClientRect().top-window.pageYOffset);
+});
+function EV_MD(x,y){
+ switch(+fo1.sb1.value){
+  case(1):OB[obit++]=new liss(x,y);break;
+  case(2):OB[obit++]=new koch(x,y);break;
+ }
+}
+</script></body></html>

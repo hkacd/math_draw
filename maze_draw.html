@@ -1,0 +1,56 @@
+<html><body>
+
+<canvas id="CI1"width="400"height="400"style="float:left;background:#eeeeee"></canvas>
+
+
+<script>
+let CC=(CE=document.getElementById("CI1")).getContext("2d");
+obit=0;
+OB=[];
+X=Y=100;
+XY=X*Y;
+MZDR=new Array(XY).fill(true);
+MZRF=new Array(XY).fill(false);
+for(x=0;x<X;x++){MZRF[x]=MZRF[XY-1-x]=true;}
+for(y=0;y<XY;y+=X){MZRF[y]=MZRF[XY-1-y]=true;}
+
+function maze(x,y){
+ let it=0,
+ wt=0.8,
+ xd=1,
+ yd=0,
+ siz=4,
+ rm,
+ tm;
+ x=(x/siz)|0;
+ y=(y/siz)|0;
+ MZDR[x+X*y]=false;
+ ii=setInterval(()=>{
+  for(it--;it<1;it+=wt){
+   CC.moveTo(siz*x,siz*y);
+   r=Math.random();
+   switch(true){
+    case(r<0.3):tm=-yd;yd=xd;xd=tm;break;
+    case(r<0.6):tm=yd;yd=-xd;xd=tm;
+   }
+   if(MZRF[(x+=xd)+X*(y+=yd)]){x-=xd;y-=yd;}
+   else if(MZDR[x+X*y]){
+    MZDR[x+X*y]=false;
+    CC.lineTo(siz*x,siz*y);
+   }
+  }
+ },20);
+}
+
+
+ii=setInterval(()=>{
+ CC.stroke();CC.closePath();CC.beginPath();
+},20);
+
+addEventListener("mousedown",(ge)=>{
+ EV_MD(ge.pageX-CE.getBoundingClientRect().left-window.pageXOffset,ge.pageY-CE.getBoundingClientRect().top-window.pageYOffset);
+});
+function EV_MD(x,y){
+ OB[obit++]=new maze(x,y);
+}
+</script></body></html>
